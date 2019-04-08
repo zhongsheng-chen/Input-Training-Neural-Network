@@ -7,8 +7,6 @@ function [net, tr] = itnntrain( net, target)
 
 global TS
 
-
-
 [net, data] = itnnconfigure(net, target);
 net = itnninit(net);
 [net, tr, data] = itnnprepare(net, data);
