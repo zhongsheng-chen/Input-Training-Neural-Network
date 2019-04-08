@@ -49,7 +49,6 @@ net.bias = [];           % Biases
 
 % Display
 net.trainParam.showWindow = false;
-net.trainParam.showState = false;
 net.trainParam.showCommandLine = false;
 
 

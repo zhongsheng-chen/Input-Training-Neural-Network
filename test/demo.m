@@ -32,8 +32,7 @@ net.divideParam.testRatio = 0.15;
 net.performFcn = 'mse';
 net.adaptFcn = 'none';
 net.trainParam.showCommandLine = true;
-net.trainParam.showState = false;
-net.trainParam.showWindow = false;
+net.trainParam.showWindow = true;
 [net, tr]= itnntrain(net, X);
 XPrime = tr.train.output;
 
@@ -45,6 +44,7 @@ xr = XPrime(1,:);
 yr = XPrime(2,:);
 zr = XPrime(3,:);
 
+figure
 scatter3(xo,yo,zo, 'bo');
 hold on
 scatter3(xr, yr,zr, 'r+');

@@ -9,13 +9,9 @@ goal  = net.trainParam.goal;
 epoch = net.trainParam.epoch;
 adjustMethod = option.adjustMethod;
 
-efig = [];
+fig = [];
 if net.trainParam.showWindow
-    efig = figure();
-end
-sfig = [];
-if net.trainParam.showState
-    sfig = figure();
+    fig = figure();
 end
 
 for i = 1:epoch
@@ -38,13 +34,8 @@ for i = 1:epoch
     end
     
     if net.trainParam.showWindow
-        option.plot.lineName = 'Erros';
-        efig = itnnupdatefigure(efig, i, error, option);
-    end
-    
-    if net.trainParam.showState
-        option.plot.lineName = 'Gradients';
-        sfig = itnnupdatefigure(sfig, i, gradient, option);
+ 
+        fig = itnnupdatefigure(net, i, fig, error, gradient, option);
     end
    
     if error(i) < goal
