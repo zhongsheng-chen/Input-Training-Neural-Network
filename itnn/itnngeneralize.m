@@ -15,7 +15,7 @@ if ~isequal(size(target, 1), net.numOutput)
     error('ITNN:generalization:misMatch', 'Dimension does not match.')
 end
 
-T = preprocess(net.normalizationFcn, target, TS);
+T = preprocess(net.processFcn, target, TS);
 
 % Update size to match the given targets for contructing proper X, pdX, pdW, pdb.
 [net, data]= itnnconfigure(net, T);
@@ -29,8 +29,8 @@ pdb = data.pdb;
 option.phase = 'generalization';
 option.adjustMethod = 'fixed';
 [net, P, Out, Error, Gradient, cpuTime, maxit, stop] = itnniter(net, X, T, pdX, pdW, pdb, option);
-Target = postprocess(net.normalizationFcn, T, TS);
-Output = postprocess(net.normalizationFcn, Out, TS);
+Target = postprocess(net.processFcn, T, TS);
+Output = postprocess(net.processFcn, Out, TS);
 perf = mse(Target, Output);
 tr.generalization.princom = P;
 tr.generalization.output = Output;

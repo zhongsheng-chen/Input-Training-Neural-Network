@@ -1,10 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%% Numerical Demonstration %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This demo orignates from 
-%   Ref. Q. Zhu, C. Li,
-%       Dimensionality Reduction with Input Training Neural Network
-%       and Its Application in Chemical Process Modelling,
-%       Chinese Journal of Chemical Engineering, 14 (2006) 597-603
-% where a numerical 3-D examples is provided to validate itnn algorithm.
+% This script is used to validate the functionality of itnngeneralize
+% More infomation see demo_itnnpredict.m
 n = 200;
 mu = 0; sigma = 0.01;
 t = 2*rand(1, n) - 1;
@@ -34,8 +30,29 @@ net.adaptFcn = 'none';
 net.trainParam.showCommandLine = false;
 net.trainParam.showWindow = false;
 [net, tr]= itnntrain(net, X);
-XPrime = tr.train.output;
 
+trainInd = tr.trainInd;
+valInd = tr.valInd;
+testInd = tr.testInd;
+
+traindata = X(:, trainInd);
+valdata = X(:, valInd);
+testdata = X(:, testInd);
+
+trainXPrime = itnngeneralize(net, traindata);
+valXPrime = itnngeneralize(net, valdata);
+testXPrime = itnngeneralize(net, testdata);
+
+trainFigure = figure('Name', 'Predict Principle Component for Trainning Data');
+view_reconstruction(trainFigure, X, trainXPrime);
+
+valFigure = figure('Name', 'Predict Principle Component for Validation Data');
+view_reconstruction(valFigure, X, valXPrime);
+
+testFigure = figure('Name', 'Predict Principle Component for Testing Data');
+view_reconstruction(testFigure, X, testXPrime);
+
+function fig = view_reconstruction(fig, X, XPrime)
 xo = X(1,:);
 yo = X(2,:);
 zo = X(3,:);
@@ -44,10 +61,11 @@ xr = XPrime(1,:);
 yr = XPrime(2,:);
 zr = XPrime(3,:);
 
-figure
+figure(fig);
 scatter3(xo,yo,zo, 'bo');
 hold on
 scatter3(xr, yr,zr, 'r+');
 hold off
 legend('Orignal data','Reconstruction data')
+end
 
